@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ProductList.css';
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 
 // Optional: You can move this array to a separate file like plantData.js for better structure
 const plantsArray = [
@@ -193,6 +193,10 @@ function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [addedToCart, setAddedToCart] = useState({});
     const dispatch = useDispatch();
+    const cartItems = useSelector((state) => state.cart.items);
+    const calculateTotalQuantity = () => {
+        return cartItems ? cartItems.reduce((total, item) => total + item.quantity, 0) : 0;
+         };
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
